@@ -1,3 +1,6 @@
 body {
     background-image: url("https://img.magnific.com/premium-photo/different-fruits-isolated-white-background-with-copy-space_88281-2246.jpg?w=1380");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-attachment: fixed;
 }
