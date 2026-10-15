@@ -25,6 +25,7 @@ function addFruit(fruit){
 function removeFruit(e){
         e.target.remove()
     }
+/* Same as the next few lines but re-written in a more JS way.
 
 function fetchFruitData(fruit){
         fetch(`https://fruit-api-5v0j.onrender.com/fruits/${fruit}`)
@@ -40,4 +41,25 @@ function processResponse(resp){
             throw "Error: http status code = " + resp.status
         }
     }
+*/
+
+async function fetchFruitData(fruit) {
+    try {
+        //Make sure to replace this link with your deployed API URL in this fetch
+        const respData = await fetch(`https://fruit-api-5v0j.onrender.com/fruits/${fruit}`);
+        const respImg = await fetch(
+            `https://pixabay.com/api/?q=${fruit}+fruit&key=${apiKey}`
+        );
+
+        if (respData.ok && respImg.ok) {
+            const data = await respData.json();
+            const imgData = await respImg.json();
+            addFruit(data, imgData);
+        } else {
+            throw "Something has gone wrong with one of the API requests";
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
 },{}]},{},[1]);
