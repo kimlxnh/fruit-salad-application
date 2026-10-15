@@ -5,6 +5,8 @@ const fruitNutrition = document.querySelector ('#nutritionSection p');
 
 fruitForm.addEventListener('submit', extractFruit)
 let cal = 0
+const fruitCal = {};
+const apiKey = "58058276-b2e322337dd4be25ae00cd21c";
 
 function extractFruit(e){
     e.preventDefault()
@@ -62,4 +64,6 @@ async function fetchFruitData(fruit) {
         console.log(e);
     }
 }
+
+
 },{}]},{},[1]);
