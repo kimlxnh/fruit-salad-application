@@ -16,6 +16,7 @@ function extractFruit(e){
 function addFruit(fruit){
     const li = document.createElement('li')
     li.textContent = fruit.name
+    li.dataset.calories = fruit.nutritions.calories
     li.addEventListener('click', removeFruit)
     fruitList.appendChild(li)
 
@@ -23,9 +24,12 @@ function addFruit(fruit){
     fruitNutrition.textContent = cal
     }
 
-function removeFruit(e){
-        e.target.remove()
-    }
+function removeFruit (e){
+    const li = e.currentTarget;
+    cal -= Number(li.dataset.calories);
+    fruitNutrition.textContent = cal;
+    li.remove();
+}
 
 function fetchFruitData(fruit){
         fetch(`https://fruit-api-5v0j.onrender.com/fruits/${fruit}`)
@@ -41,8 +45,3 @@ function processResponse(resp){
             throw "Error: http status code = " + resp.status
         }
     }
-
-function removeFruits(e){
-    const li = e.target
-
-}
