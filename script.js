@@ -8,10 +8,8 @@ let cal = 0
 const fruitCal = {};
 const apiKey = "58058276-b2e322337dd4be25ae00cd21c";
 
-fruitForm.addEventListener("submit", extractFruit);
+fruitForm.addEventListener('submit', extractFruit);
 createForm.addEventListener('submit', createNewFruit)
-
-
 
 function extractFruit(e){
     e.preventDefault()
@@ -19,19 +17,6 @@ function extractFruit(e){
     e.target.fruitInput.value=""
     }
 
-function addFruit(fruit){
-    const li = document.createElement('li')
-    li.textContent = fruit.name
-    li.addEventListener('click', removeFruit)
-    fruitList.appendChild(li)
-
-    cal += fruit.nutritions.calories
-    fruitNutrition.textContent = cal
-    }
-
-function removeFruit(e){
-        e.target.remove()
-    }
 /* Same as the next few lines but re-written in a more JS way.
 
 function fetchFruitData(fruit){
@@ -70,6 +55,30 @@ async function fetchFruitData(fruit) {
         console.log(e);
     }
 }
+
+function addFruit(fruit, fruitImg){
+    const img = document.createElement("img");
+    img.classList.add('fruits');
+    img.alt = fruit.name;
+    img.src = fruitImg.hits[0].previewURL;
+
+    img.addEventListener("click", removeFruit, {once: true});
+    fruitList.appendChild(img);
+    
+    fruitCal[fruit.name] = fruit.nutritions.calories;
+
+    cal += fruit.nutritions.calories
+    fruitNutrition.textContent = "Total Calories:" + cal;
+    }
+
+function removeFruit(e){
+        const fruitName = e.target.alt;
+        cal -= fruitCal[fruitName];
+        fruitNutrition.textContent = "Total Calories: " + cal;
+
+        delete fruitCal[fruitName];
+        e.target.remove()
+    }
 //HTTP req can only send text so JSON.stringify turns object to str
 //content type is a header that tells the server the body is in JSON form, if not written req.body will come thorugh as empty/undefined
 async function createNewFruit(e) {
