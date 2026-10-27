@@ -2,14 +2,15 @@ const fruitForm = document.querySelector('#inputSection form')
 const fruitList = document.querySelector('#fruitSection ul')
 const fruitNutrition = document.querySelector ('#nutritionSection p');
 const createForm = document.querySelector('#create-form')
+const deleteForm = document.querySelector('#delete-form')
 
-fruitForm.addEventListener('submit', extractFruit)
+fruitForm.addEventListener('submit', extractFruit);
 let cal = 0
 const fruitCal = {};
 const apiKey = "58058276-b2e322337dd4be25ae00cd21c";
 
-fruitForm.addEventListener('submit', extractFruit);
-createForm.addEventListener('submit', createNewFruit)
+createForm.addEventListener('submit', createNewFruit);
+deleteForm.addEventListener('submit', deleteNewFruit);
 
 function extractFruit(e){
     e.preventDefault()
@@ -64,7 +65,7 @@ function addFruit(fruit, fruitImg){
 
     img.addEventListener("click", removeFruit, {once: true});
     fruitList.appendChild(img);
-    
+
     fruitCal[fruit.name] = fruit.nutritions.calories;
 
     cal += fruit.nutritions.calories
@@ -111,3 +112,28 @@ async function createNewFruit(e) {
         },4000)
     }
 } 
+// new delete request made 
+
+async function deleteNewFruit(e) {
+    e.preventDefault()
+    const data = {
+        name: e.target.fruitDelete.value
+    }
+    const response = await fetch(`https://fruit-backend-api.onrender.com/fruits/${data.name}`, {method: "DELETE"})
+    let messageStatus = document.querySelector('#deleteFruit')
+
+    if (response.status === 204) {
+        e.target.fruitDelete.value=''
+        messageStatus.textContent = 'Fruit successfully deleted.'
+        setTimeout(() => {
+        messageStatus.textContent = ''
+    }, 4000)
+    } else {
+        e.target.fruitDelete.value=''
+        messageStatus.textContent = 'Could not delete the fruit. Try again.'
+        setTimeout(()=> {
+            messageStatus.textContent=''
+        },4000)
+    }
+}
+
