@@ -45,12 +45,14 @@
             <p id = "deleteFruit"></p>
         </section>
         <section>
-                <form id ="patch-form">
-                <input type="text" id = "fruitpatch" name="fruit" placeholder="name" required>
-                <input type="submit" value ="patch">
-            </form>
-            <p id = "patchFruit"></p>
+        <h2>Update a fruit</h2>
+        <form id="update-form">
+            <input id="currentName" type="text" name="currentName" placeholder="fruit to update" required>
+            <input id="newName" type="text" name="newName" placeholder="new name">
+            <input id="newFamily" type="text" name="newFamily" placeholder="new family">
+            <input type="submit" value="Update">
+        </form>
+        <p id="update-message"></p>
         </section>
-
 </body>
 </html>

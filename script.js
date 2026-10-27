@@ -3,6 +3,7 @@ const fruitList = document.querySelector('#fruitSection ul')
 const fruitNutrition = document.querySelector ('#nutritionSection p');
 const createForm = document.querySelector('#create-form')
 const deleteForm = document.querySelector('#delete-form')
+const updateForm = document.querySelector("#update-form");
 
 fruitForm.addEventListener('submit', extractFruit);
 let cal = 0
@@ -11,6 +12,7 @@ const apiKey = "58058276-b2e322337dd4be25ae00cd21c";
 
 createForm.addEventListener('submit', createNewFruit);
 deleteForm.addEventListener('submit', deleteNewFruit);
+updateForm.addEventListener("submit", updateFruit);
 
 function extractFruit(e){
     e.preventDefault()
@@ -136,35 +138,36 @@ async function deleteNewFruit(e) {
         },4000)
     }
 }
-// new patch request made 
+// Sends a PATCH request to change a fruit's name and/or family
+async function updateFruit(e) {
+  e.preventDefault();
 
-async function patchNewFruit(e) {
-    e.preventDefault()
-    const data = {
-        name: e.target.fruitPatch.value
-    }
-    const options = {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    }
-    const response = await fetch(`https://fruit-backend-api.onrender.com/fruits/${data.name}`, {method: "PATCH"})
-    let messageStatus = document.querySelector('#patchFruit')
+  const fruitName = e.target.currentName.value;
+  const data = {
+    name: e.target.newName.value,
+    family: e.target.newFamily.value
+  };
 
-    if (response.status === 200 || response.status === 202) {
-        e.target.fruitPatch.value=''
-        messageStatus.textContent = 'Fruit successfully patched.'
-        setTimeout(() => {
-        messageStatus.textContent = ''
-    }, 4000)
-    } else {
-        e.target.fruitPatch.value=''
-        messageStatus.textContent = 'Could not patch the fruit. Try again.'
-        setTimeout(()=> {
-            messageStatus.textContent=''
-        },4000)
-    }
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  };
+
+  const response = await fetch(`<https://fruit-backend-api.onrender.com/fruits/fruits/${fruitName}`, options);
+
+  let messageStatus = document.querySelector("#update-message");
+  if (response.status === 200) {
+    e.target.currentName.value = '';
+    e.target.newName.value = '';
+    e.target.newFamily.value = '';
+    messageStatus.textContent = "Fruit successfully updated.";
+  } else {
+    messageStatus.textContent = "This fruit doesn't exist. Please check the name!";
+  }
+  setTimeout(() => {
+    messageStatus.textContent = "";
+  }, 4000);
 }
-
