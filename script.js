@@ -70,8 +70,9 @@ async function fetchFruitData(fruit) {
         console.log(e);
     }
 }
-//promise below must have async and await 
-async function createNewFruit (e) {
+//HTTP req can only send text so JSON.stringify turns object to str
+//content type is a header that tells the server the body is in JSON form, if not written req.body will come thorugh as empty/undefined
+async function createNewFruit(e) {
     e.preventDefault()
     const data = {
         name: e.target.fruitCreate.value
@@ -84,5 +85,20 @@ async function createNewFruit (e) {
         body: JSON.stringify(data)
     }
     const response = await fetch(`https://fruit-backend-api.onrender.com/fruits`, options)
-    console.log(response)
+    let messageStatus = document.querySelector('#message')
+    //start control flow
+
+    if (response.status === 201){
+        e.target.fruitCreate.value = ''
+        messageStatus.textContent= 'Fruit successfully created.'
+        setTimeout(() => {
+            messageStatus.textContent=''
+        }, 4000)
+    } else {
+        e.target.fruitCreate.value=''
+        messageStatus.textContent='This fruit already exists. Please enter another one.'
+        setTimeout(() =>{
+            messageStatus.textContent=''
+        },4000)
+    }
 } 
