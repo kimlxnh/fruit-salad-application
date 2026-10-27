@@ -136,4 +136,35 @@ async function deleteNewFruit(e) {
         },4000)
     }
 }
+// new patch request made 
+
+async function patchNewFruit(e) {
+    e.preventDefault()
+    const data = {
+        name: e.target.fruitPatch.value
+    }
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+    const response = await fetch(`https://fruit-backend-api.onrender.com/fruits/${data.name}`, {method: "PATCH"})
+    let messageStatus = document.querySelector('#patchFruit')
+
+    if (response.status === 200 || response.status === 202) {
+        e.target.fruitPatch.value=''
+        messageStatus.textContent = 'Fruit successfully patched.'
+        setTimeout(() => {
+        messageStatus.textContent = ''
+    }, 4000)
+    } else {
+        e.target.fruitPatch.value=''
+        messageStatus.textContent = 'Could not patch the fruit. Try again.'
+        setTimeout(()=> {
+            messageStatus.textContent=''
+        },4000)
+    }
+}
 
